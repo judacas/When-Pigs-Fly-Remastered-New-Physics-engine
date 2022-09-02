@@ -4,56 +4,61 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour{
 
-    public MassParticle[] particles = new MassParticle[10];
+    public MassParticle[] particles = new MassParticle[12];
     public List<Constraint> constraints = new List<Constraint>();
 
     [Range(0, 1)]
     public float damp = 0.5f;
 
-    [Range(1, 100)]
-    public float radius = 1f;
+    [Range(0, 100)]
+    public float randomness = 1f;
 
     [Range (0,100)]
     public int num = 10;
 
     int oldNum = 10;
 
+    Rectangle rec;
+
     private void Awake()
     {
-        setup();
+        rec= new Rectangle(Vector3.zero, 10, 10, 10);
+        //  particles[0] = (new MassParticle(new Vector3(-5,0,0), 5));
+        // particles[1] = (new MassParticle(new Vector3( 5,0,0), 5));
+
+        // float t = (1.0f + Mathf.Sqrt(5.0f)) / 2.0f;
+
+        // particles[0] = (new MassParticle(new Vector3(-1,  t,  0), 5));
+        // particles[1] = (new MassParticle(new Vector3( 1,  t,  0), 5));
+        // particles[2] = (new MassParticle(new Vector3(-1, -t,  0), 5));
+        // particles[3] = (new MassParticle(new Vector3( 1, -t,  0), 5));
+
+        // particles[4] = (new MassParticle(new Vector3( 0, -1,  t), 5));
+        // particles[5] = (new MassParticle(new Vector3( 0,  1,  t), 5));
+        // particles[6] = (new MassParticle(new Vector3( 0, -1, -t), 5));
+        // particles[7] = (new MassParticle(new Vector3( 0,  1, -t), 5));
+
+        // particles[8] = (new MassParticle(new Vector3( t,  0, -1), 5));
+        // particles[9] = (new MassParticle(new Vector3( t,  0,  1), 5));
+        // particles[10] = (new MassParticle(new Vector3(-t,  0, -1), 5));
+        // particles[11] = (new MassParticle(new Vector3(-t,  0,  1), 5));
+        // randomSetup();
     }
 
-    // particles[0] = (new MassParticle(new Vector3(-5,0,0), 5));
-    // particles[1] = (new MassParticle(new Vector3( 5,0,0), 5));
 
-    // float t = (1.0f + Mathf.Sqrt(5.0f)) / 2.0f;
-
-    // particles[0] = (new MassParticle(new Vector3(-1,  t,  0), 5));
-    // particles[1] = (new MassParticle(new Vector3( 1,  t,  0), 5));
-    // particles[2] = (new MassParticle(new Vector3(-1, -t,  0), 5));
-    // particles[3] = (new MassParticle(new Vector3( 1, -t,  0), 5));
-
-    // particles[4] = (new MassParticle(new Vector3( 0, -1,  t), 5));
-    // particles[5] = (new MassParticle(new Vector3( 0,  1,  t), 5));
-    // particles[6] = (new MassParticle(new Vector3( 0, -1, -t), 5));
-    // particles[7] = (new MassParticle(new Vector3( 0,  1, -t), 5));
-
-    // particles[8] = (new MassParticle(new Vector3( t,  0, -1), 5));
-    // particles[9] = (new MassParticle(new Vector3( t,  0,  1), 5));
-    // particles[10] = (new MassParticle(new Vector3(-t,  0, -1), 5));
-    // particles[11] = (new MassParticle(new Vector3(-t,  0,  1), 5));
 
 
     private void FixedUpdate()
     {
-        if(oldNum != num){
-            setup();
-        }
-        foreach (DistanceConstraint constraint in constraints)
-        {
-            constraint.work();
-            constraint.changeDamp(damp);
-        }
+        
+        // if(oldNum != num){
+        //     randomSetup();
+        // }
+        // foreach (DistanceConstraint constraint in constraints)
+        // {
+        //     constraint.work();
+        //     constraint.changeDamp(damp);
+        // }
     }
 
     /// <summary>
@@ -61,6 +66,7 @@ public class Controller : MonoBehaviour{
     /// </summary>
     private void OnDrawGizmos()
     {
+        rec.Draw();
         if(particles != null){
             foreach (MassParticle particle in particles)
             {
@@ -79,12 +85,12 @@ public class Controller : MonoBehaviour{
     }
 
 
-    void setup(){
+    void randomSetup(){
 
         particles = new MassParticle[num];
         constraints = new List<Constraint>();
         for(int i = 0; i < particles.Length; i++){
-            particles[i] = new MassParticle(new Vector3(Random.Range(-radius,radius), Random.Range(-radius,radius), Random.Range(-radius,radius)), 5);
+            particles[i] = new MassParticle(new Vector3(Random.Range(-randomness,randomness), Random.Range(-randomness,randomness), Random.Range(-randomness,randomness)), 5);
 
         }
         foreach (MassParticle particle in particles){
