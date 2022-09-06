@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,7 +21,7 @@ public class Controller : MonoBehaviour{
 
     private void Awake()
     {
-        rec= new Rectangle(Vector3.zero, 10, 10, 10);
+        rec = new Rectangle(Vector3.zero, 4, 4, 4, 10, 10, 10, 20, 0.5f);
         //  particles[0] = (new MassParticle(new Vector3(-5,0,0), 5));
         // particles[1] = (new MassParticle(new Vector3( 5,0,0), 5));
 
@@ -66,7 +65,10 @@ public class Controller : MonoBehaviour{
     /// </summary>
     private void OnDrawGizmos()
     {
-        rec.Draw();
+        if (rec != null)
+        {
+            rec.Draw();
+        }
         if(particles != null){
             foreach (MassParticle particle in particles)
             {

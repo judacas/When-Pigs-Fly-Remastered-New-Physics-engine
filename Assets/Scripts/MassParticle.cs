@@ -5,7 +5,7 @@ using UnityEngine;
 public class MassParticle
 {
     public Vector3 pos;
-    static float radius = 0.2f;
+    static float radius = 1f;
     public float mass;
 
     Color color;

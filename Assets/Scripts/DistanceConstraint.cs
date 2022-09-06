@@ -16,11 +16,11 @@ public class DistanceConstraint : Constraint{
     }
 
     // //todo: if need be make game run faster by avoiding square roots with distances and stuff
-    public DistanceConstraint(MassParticle a, MassParticle b, float targetDistance) {
+    public DistanceConstraint(MassParticle a, MassParticle b, float dampeningFactor) {
         this.a = a;
         this.b = b;
-        this.td = targetDistance;
-        damp = 1f;
+        this.td = (a.pos - b.pos).magnitude;
+        this.damp = dampeningFactor;
         // Debug.Log(this);
 
     }
