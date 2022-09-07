@@ -23,7 +23,7 @@ public class Rectangle
         this.mpp = mass / (this.width * this.height * this.depth);
         this.damp = damp;
         particles = new MassParticle[x,y,z];
-        distConsts = new DistanceConstraint[x,y,z,3];
+        distConsts = new DistanceConstraint[x,y,z,13];
         setUpParticles();
         setUpDistanceConstraints();
 
@@ -55,9 +55,63 @@ public class Rectangle
             {
                 for (int k = 0; k < particles.GetLength(2); k++)
                 {
-                    distConsts[i, j, k, 0] = new DistanceConstraint(particles[i, j, k], particles[(int)MathF.Min(i+1, particles.GetLength(0)-1), j, k], damp);
-                    distConsts[i, j, k, 1] = new DistanceConstraint(particles[i, j, k], particles[i, (int)MathF.Min(j+1, particles.GetLength(1)-1), k], damp);
-                    distConsts[i, j, k, 2] = new DistanceConstraint(particles[i, j, k], particles[i, j, (int)MathF.Min(k+1, particles.GetLength(0)-1)], damp);
+                    if(i < particles.GetLength(0)-1)
+                    {
+                        distConsts[i, j, k, 0] = new DistanceConstraint(particles[i, j, k], particles[i+1, j, k], damp);
+                        if (j < particles.GetLength(1) - 1)
+                        {
+                            distConsts[i, j, k, 1] = new DistanceConstraint(particles[i, j, k], particles[i+1, j+1, k], damp);
+                            if(k < particles.GetLength(2) - 1)
+                            {
+                                distConsts[i, j, k, 2] = new DistanceConstraint(particles[i, j, k], particles[i+1, j+1, k+1], damp);
+                            }
+                            if(k > 0)
+                            {
+                                distConsts[i, j, k, 3] = new DistanceConstraint(particles[i, j, k], particles[i+1, j+1, k-1], damp);
+                            }
+                        }
+                        if (j > 0)
+                        {
+                            distConsts[i, j, k, 4] = new DistanceConstraint(particles[i, j, k], particles[i+1, j-1, k], damp);
+                            if(k < particles.GetLength(2) - 1)
+                            {
+                                distConsts[i, j, k, 5] = new DistanceConstraint(particles[i, j, k], particles[i+1, j-1, k+1], damp);
+                            }
+                            if(k > 0)
+                            {
+                                distConsts[i, j, k, 6] = new DistanceConstraint(particles[i, j, k], particles[i+1, j-1, k-1], damp);
+                            }
+                            
+                        }
+                        if (k < particles.GetLength(2) - 1)
+                        {
+                            distConsts[i, j, k, 7] = new DistanceConstraint(particles[i, j, k], particles[i+1, j, k+1], damp);
+                        }
+                        if (k > 0)
+                        {
+                            distConsts[i, j, k, 8] = new DistanceConstraint(particles[i, j, k], particles[i+1, j, k-1], damp);
+                        }
+                    }
+                    if(j < particles.GetLength(1)-1)
+                    {
+                        distConsts[i, j, k, 9] = new DistanceConstraint(particles[i, j, k], particles[i, j+1, k], damp);
+                        if (k < particles.GetLength(2) - 1)
+                        {
+                            distConsts[i, j, k, 10] = new DistanceConstraint(particles[i, j, k], particles[i, j+1, k+1], damp);
+                        }
+                        if (k > 0)
+                        {
+                            distConsts[i, j, k, 11] = new DistanceConstraint(particles[i, j, k], particles[i, j+1, k-1], damp);
+                        }
+                    }
+                    if (k < particles.GetLength(2) - 1)
+                    {
+                        distConsts[i, j, k, 12] = new DistanceConstraint(particles[i, j, k], particles[i, j, k+1], damp);
+                    }
+
+                    // distConsts[i, j, k, 0] = new DistanceConstraint(particles[i, j, k], particles[(int)MathF.Min(i+1, particles.GetLength(0)-1), j, k], damp);
+                    // distConsts[i, j, k, 1] = new DistanceConstraint(particles[i, j, k], particles[i, (int)MathF.Min(j+1, particles.GetLength(1)-1), k], damp);
+                    // distConsts[i, j, k, 2] = new DistanceConstraint(particles[i, j, k], particles[i, j, (int)MathF.Min(k+1, particles.GetLength(0)-1)], damp);
 
                     // int count = 0;
                     // for (int a = i; a < Mathf.Min(i+1, particles.GetLength(0)); a++)

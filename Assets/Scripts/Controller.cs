@@ -21,7 +21,7 @@ public class Controller : MonoBehaviour{
 
     private void Awake()
     {
-        rec = new Rectangle(Vector3.zero, 4, 4, 4, 10, 10, 10, 20, 0.2f);
+        rec = new Rectangle(Vector3.zero, 5, 5, 5, 10, 10, 10, 20, 0.1f);
         //  particles[0] = (new MassParticle(new Vector3(-5,0,0), 5));
         // particles[1] = (new MassParticle(new Vector3( 5,0,0), 5));
 
