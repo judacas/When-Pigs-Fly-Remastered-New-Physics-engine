@@ -11,6 +11,7 @@ public class DistanceConstraint : Constraint{
         this.b = b;
         this.td = (a.pos - b.pos).magnitude;
         damp = 1f;
+        
         // Debug.Log(this);
 
     }
@@ -25,7 +26,7 @@ public class DistanceConstraint : Constraint{
 
     }
 
-    public DistanceConstraint(MassParticle a, MassParticle b, float targetDistance, float dampeningFactor) {
+    public DistanceConstraint(MassParticle a, MassParticle b, float dampeningFactor, float targetDistance) {
         this.a = a;
         this.b = b;
         this.td = targetDistance;

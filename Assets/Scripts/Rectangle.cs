@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Rectangle
@@ -22,7 +23,7 @@ public class Rectangle
         this.mpp = mass / (this.width * this.height * this.depth);
         this.damp = damp;
         particles = new MassParticle[x,y,z];
-        distConsts = new DistanceConstraint[x,y,z,27];
+        distConsts = new DistanceConstraint[x,y,z,3];
         setUpParticles();
         setUpDistanceConstraints();
 
@@ -43,7 +44,7 @@ public class Rectangle
     public void setUpDistanceConstraints()
     {
         // float horizontalDistance = width / x;
-        // float verticalDistance = height / y;
+        // float verticalDistance = height / y;+
         // float depthDistance = depth / z;
         // float xyDiagonalDistance = MathF.Sqrt(MathF.Pow(horizontalDistance, 2) + MathF.Pow(verticalDistance, 2));
         // float xzDiagonalDistance = MathF.Sqrt(MathF.Pow(horizontalDistance, 2) + MathF.Pow(depthDistance, 2));
@@ -54,22 +55,47 @@ public class Rectangle
             {
                 for (int k = 0; k < particles.GetLength(2); k++)
                 {
+                    distConsts[i, j, k, 0] = new DistanceConstraint(particles[i, j, k], particles[(int)MathF.Min(i+1, particles.GetLength(0)-1), j, k], damp);
+                    distConsts[i, j, k, 1] = new DistanceConstraint(particles[i, j, k], particles[i, (int)MathF.Min(j+1, particles.GetLength(1)-1), k], damp);
+                    distConsts[i, j, k, 2] = new DistanceConstraint(particles[i, j, k], particles[i, j, (int)MathF.Min(k+1, particles.GetLength(0)-1)], damp);
+
+                    // int count = 0;
+                    // for (int a = i; a < Mathf.Min(i+1, particles.GetLength(0)); a++)
+                    // {
+                    //     for (int b = k; b < Mathf.Min(j+1, particles.GetLength(0)); b++)
+                    //     {
+                    //         for (int c = k; c < Mathf.Min(k+1, particles.GetLength(0)); c++)
+                    //         {
+                    //             if(!(a==i && b==j && c==k))
+                    //             {
+                    //                 distConsts[i, j, k, count] = new DistanceConstraint(particles[i, j, k], particles[a, b, c], damp);
+                    //                 count++;
+                    //             }
+                                
+                    //         }
+                    //     }
+                    // }
 
 
-                    int count = 0;
-                    for (int a = Mathf.Max(i-1, 0); a < Mathf.Min(i+1, particles.GetLength(0)); a++)
+                }
+            }
+        }
+    }
+
+    public void work(){
+        for (int i = 0; i < particles.GetLength(0); i++)
+        {
+            for (int j = 0; j < particles.GetLength(1); j++)
+            {
+                for(int k = 0; k < particles.GetLength(2); k++)
+                {
+                    for (int x = 0; x < distConsts.GetLength(3); x++)
                     {
-                        for (int b = Mathf.Max(j-1, 0); b < Mathf.Min(j+1, particles.GetLength(0)); b++)
+                        if (distConsts[i, j, k, x] != null)
                         {
-                            for (int c = Mathf.Max(k-1, 0); c < Mathf.Min(k+1, particles.GetLength(0)); c++)
-                            {
-                                distConsts[i,j,k,count] = new DistanceConstraint(particles[i,j,k], particles[a,b,c], damp);
-                                count++;
-                            }
+                            distConsts[i, j, k, x].work();
                         }
                     }
-
-
                 }
             }
         }
@@ -93,5 +119,9 @@ public class Rectangle
                 }
             }
         }
+    }
+
+    public void moveParticle(Vector3 index, Vector3 delta){
+        particles[(int)index.x, (int)index.y, (int)index.z].pos += delta;
     }
 }
