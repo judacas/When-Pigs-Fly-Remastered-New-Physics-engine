@@ -13,7 +13,7 @@ public class InputController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Controller.rec.moveParticle(new Vector3(2,2,2), wasd*3);
+        // Controller.rec.moveParticle(new Vector3(0,0,0), wasd*25);
     }
 
     public void getInput(InputAction.CallbackContext context){

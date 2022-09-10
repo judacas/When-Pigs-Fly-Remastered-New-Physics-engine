@@ -49,6 +49,7 @@ public class Rectangle
         // float xyDiagonalDistance = MathF.Sqrt(MathF.Pow(horizontalDistance, 2) + MathF.Pow(verticalDistance, 2));
         // float xzDiagonalDistance = MathF.Sqrt(MathF.Pow(horizontalDistance, 2) + MathF.Pow(depthDistance, 2));
         // float xyzDiagonalDistance = MathF.Sqrt(MathF.Pow(horizontalDistance, 2) + MathF.Pow(verticalDistance, 2) + MathF.Pow(depthDistance, 2));
+        // distConsts[9, 1, 1, 0] = new DistanceConstraint(particles[0, 1, 1], particles[9, 1, 1], 1);
         for (int i = 0; i < particles.GetLength(0); i++)
         {
             for (int j = 0; j < particles.GetLength(1); j++)
@@ -163,13 +164,13 @@ public class Rectangle
             {
                 for(int k = 0; k < particles.GetLength(2); k++){
                     particles[i,j,k].Draw();
-                    for (int x = 0; x < distConsts.GetLength(3); x++)
-                    {
-                        if (distConsts[i, j, k, x] != null)
-                        {
-                            distConsts[i, j, k, x].Draw();
-                        }
-                    }
+                    // for (int x = 0; x < distConsts.GetLength(3); x++)
+                    // {
+                    //     if (distConsts[i, j, k, x] != null)
+                    //     {
+                    //         distConsts[i, j, k, x].Draw();
+                    //     }
+                    // }
                 }
             }
         }

@@ -21,7 +21,7 @@ public class Controller : MonoBehaviour{
 
     private void Awake()
     {
-        rec = new Rectangle(Vector3.zero, 5, 5, 5, 10, 10, 10, 20, 0.1f);
+        // rec = new Rectangle(Vector3.zero, 10, 10, 10, 10, 10, 10, 20, 0.1f);
         //  particles[0] = (new MassParticle(new Vector3(-5,0,0), 5));
         // particles[1] = (new MassParticle(new Vector3( 5,0,0), 5));
 
@@ -49,7 +49,7 @@ public class Controller : MonoBehaviour{
 
     private void FixedUpdate()
     {
-        rec.work();
+        // rec.work();
 
         // if(oldNum != num){
         //     randomSetup();
