@@ -14,4 +14,8 @@ public abstract class Constraint{
         Gizmos.color = color;
         Gizmos.DrawLine(a.pos, b.pos);
     }
+    public void Draw(Vector3 offset, Vector3 scale){
+        Gizmos.color = color;
+        Gizmos.DrawLine(new Vector3(a.pos.x * scale.x, a.pos.y * scale.y, a.pos.z * scale.z) + offset, new Vector3(b.pos.x * scale.x, b.pos.y * scale.y, b.pos.z * scale.z) + offset);
+    }
 }

@@ -13,6 +13,15 @@
                     "processors": "NormalizeVector2",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Change",
+                    "type": "Button",
+                    "id": "10634e4d-32d9-483b-b53c-2f8d5dfb1304",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -68,6 +77,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "2a1872a5-4874-4291-a3ed-a92802fc814f",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Change",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "4dd6c131-b4cf-44c5-8c7a-4a2cb95d6260",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Change",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "8a75c2bd-9888-4493-b12b-e23bae9999a2",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Change",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }

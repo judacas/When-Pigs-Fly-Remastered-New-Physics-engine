@@ -9,6 +9,7 @@ public class MassParticle
     public float mass;
 
     Color color;
+    public int[] constraintIndecies;
 
 
 
@@ -24,10 +25,18 @@ public class MassParticle
         color = new Color(Random.Range(0F,1F), Random.Range(0, 1F), Random.Range(0, 1F));
     }
 
+
     public void Draw()
     {
         Gizmos.color = color;
         Gizmos.DrawSphere(pos, radius);
+        // Debug.Log("drawing sphere at " + pos);
+    }
+
+    public void Draw(Vector3 offset, Vector3 scale)
+    {
+        Gizmos.color = color;
+        Gizmos.DrawSphere(new Vector3(pos.x * scale.x, pos.y * scale.y, pos.z * scale.z) + offset, radius);
         // Debug.Log("drawing sphere at " + pos);
     }
 

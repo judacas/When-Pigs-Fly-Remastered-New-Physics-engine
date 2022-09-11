@@ -1,3 +1,4 @@
+using System.Data;
 using UnityEngine;
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshFilter))]
@@ -9,53 +10,88 @@ public class meshPhysics : MonoBehaviour
     int[] tris, vertIndexes;
     MeshFilter meshFilter;
 
+    public float mass;
+
+    public float dampeningFactor;
+
+    public DistanceConstraint[] constraints;
+
+    public MassParticle[] particles;
+
     public void Start(){
+        mass = 5;
+        dampeningFactor = 0.5f;
         meshFilter = gameObject.GetComponent<MeshFilter>();
-        // makeRigidBody();
         fixMesh();
+        makeRigidBody();
+    }
+
+    public void FixedUpdate(){
+        for (int i = 0; i < 20; i++)
+        {
+            work();   
+        }
+        particles[InputController.index].pos += InputController.movement * 0.1f;
     }
 
 
-//so for some reason sometimes these mfers have duplicate vertices so uhm yeah check for that next time :)
-//WHY TF ARE THERE DUPLICATE VERTICES IN THE BASIC CUBE OMFG I JUST WASTED SO MUCH TIME TO FIGURE THAT OUT
-    public void makeRigidBody(){
-        Debug.Log("sldkfjdslk");
-        MeshFilter meshFilter = gameObject.GetComponent<MeshFilter>();
-        vertices = meshFilter.mesh.vertices;
-        Debug.Log("verts: " + vertices.Length);
-        tris = meshFilter.mesh.triangles;
-        Debug.Log("tries: " + tris.Length);
-        MassParticle[] particles = new MassParticle[vertices.Length];
+    public void work(){
+        if(constraints != null){
+            foreach (Constraint constraint in constraints){
+                if (constraint != null)
+                {
+                    constraint.work();
+                }
+            }
+        }
+    }
+
+
+
+    //in order for particle to not move it must be attached to at least 3 other noncoplanar-vertices
+    //with 3 vertices they will always be coplanar (this is including the og, so 3 total, by connecting to 3 more you have 4 total so may not be coplanar)
+    public void makeRigidBody()
+    {
+        particles = new MassParticle[vertices.Length];
+        for (int i = 0; i < particles.Length; i++)
+        {
+            particles[i] = new MassParticle(vertices[i], mass);
+        }
         Vector2[] edges = new Vector2[tris.Length];
         bool isFound;
         Vector2 temp;
         int index = 0;
-        for (int i = 0; i < tris.Length; i++){
-            if(i%3 == 2){
-                temp = new Vector2(i, i-2);
+        for (int i = 0; i < tris.Length; i++)
+        {
+            if (i % 3 == 2)
+            {
+                temp = new Vector2(tris[i], tris[i - 2]);
             }
-            else{
-                temp = new Vector2(i, i+1);
+            else
+            {
+                temp = new Vector2(tris[i], tris[i + 1]);
             }
             isFound = false;
-            foreach(Vector2 x in edges)
+            for (int j = 0; j < index; j++)
             {
-                if(temp.Equals(x))
+                if (temp.Equals(edges[i]))
                 {
                     isFound = true;
                     break;
                 }
             }
-            if(!isFound){
+            if (!isFound)
+            {
                 edges[index] = temp;
                 index++;
             }
         }
-        foreach (Vector3 x in vertices)
+        constraints = new DistanceConstraint[edges.Length];
+        for(int i = 0; i < constraints.Length; i++)
         {
-            Debug.Log(x);
+            constraints[i] = new DistanceConstraint(particles[(int)edges[i].x], particles[(int)edges[i].y], dampeningFactor);
         }
-        Debug.Log(edges.Length);
+        
     }
 
 
@@ -122,8 +158,8 @@ public class meshPhysics : MonoBehaviour
         {
             Debug.Log(tris[i]);
         }
-        Debug.Log($"num of tris" + tris.Length/3);
-        Debug.Log($"num of verts" + vertices.Length);
+        Debug.Log($"num of tris: " + tris.Length/3);
+        Debug.Log($"num of verts: " + vertices.Length);
          
     }
     public void makeMesh()
@@ -176,5 +212,27 @@ public class meshPhysics : MonoBehaviour
 
         mesh.RecalculateNormals();
         meshFilter.mesh = mesh;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if(particles != null){
+            foreach (MassParticle particle in particles)
+            {
+                if (particle != null)
+                {
+                    particle.Draw(transform.position, transform.localScale);
+                }
+            }
+
+        }
+        if(constraints != null){
+            foreach (Constraint constraint in constraints){
+                if (constraint != null)
+                {
+                    constraint.Draw(transform.position, transform.localScale);
+                }
+            }
+        }
     }
 }
