@@ -56,6 +56,7 @@ public class meshPhysics : MonoBehaviour
         for (int i = 0; i < particles.Length; i++)
         {
             particles[i] = new MassParticle(vertices[i], mass);
+            print(vertices[i]);
         }
         Vector2[] edges = new Vector2[tris.Length];
         bool isFound;
@@ -63,6 +64,7 @@ public class meshPhysics : MonoBehaviour
         int index = 0;
         for (int i = 0; i < tris.Length; i++)
         {
+            print(tris[i]);
             if (i % 3 == 2)
             {
                 temp = new Vector2(tris[i], tris[i - 2]);
@@ -221,7 +223,7 @@ public class meshPhysics : MonoBehaviour
             {
                 if (particle != null)
                 {
-                    particle.Draw(transform.position, transform.localScale);
+                    particle.Draw(transform.position, transform.localScale * 10);
                 }
             }
 

@@ -41,7 +41,7 @@ public class MassParticle
     }
 
     public override string ToString(){
-        return "MassParticle at (" + pos;
+        return ("MassParticle at (" + pos);
     }
 
     public bool Equals(MassParticle other){
